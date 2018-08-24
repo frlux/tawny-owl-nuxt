@@ -14,6 +14,8 @@
 
     </header>
 
+    {{ $route.name }}
+
     <Search />
 
     <nuxt />
