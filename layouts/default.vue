@@ -10,7 +10,7 @@
 
       </nuxt-link>
 
-      <Menu />
+      <main-menu />
 
     </header>
 
@@ -26,3 +26,9 @@
 
 </template>
 
+<script>
+  import MainMenu from "../components/MainMenu";
+  export default {
+    components: {MainMenu}
+  }
+</script>
