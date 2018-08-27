@@ -22,6 +22,7 @@ export default {
     if (store.state.pages.length === 0) {
       await store.dispatch("getPages");
     }
+
     if (store.state.collection.length === 0) {
       await store.dispatch("getCollection");
     }

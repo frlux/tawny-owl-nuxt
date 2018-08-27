@@ -14,6 +14,10 @@ module.exports = {
       { hid: 'description', name: 'description', content: 'The homepage for the Fontana Regional Library system.' }
     ],
     link: [
+      {
+        rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/css?family=Open+Sans|PT+Serif|Lato'
+      },
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
@@ -54,7 +58,11 @@ module.exports = {
   plugins: [
     {
       src: '~/plugins/feathers.js',
-      ssr: false,
+      ssr: true,
+    },
+    {
+      src: '~/plugins/routes.js',
+      ssr: true,
     }
   ],
 }
