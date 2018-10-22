@@ -7,7 +7,7 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: 'tawny-owl',
+    title: 'Fontana Regional Library',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -44,17 +44,15 @@ module.exports = {
         config.resolve.alias['vue'] = 'vue/dist/vue.common';
       }
     },
-
-    generate: {
-      fallback: true,
-    },
     vendor: [
       'axios',
       'vue-add-to-calendar',
       'vue-moment',
     ],
   },
-
+  router: {
+    base: '/',
+  },
   plugins: [
     {
       src: '~/plugins/feathers.js',

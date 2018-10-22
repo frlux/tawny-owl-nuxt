@@ -2,14 +2,14 @@ import axios from "axios/index";
 
 const actions = {
   async getCallsToAction({ commit }) {
-    const { data } = await axios.get('http://fontana.local/wp-json/wp/v2/calls-to-action');
+    const { data } = await axios.get('https://fontana.librarians.design/wp-json/wp/v2/calls-to-action');
     commit('addCallsToActionToState', data);
   },
 
   getCollection({ commit }) {
     return new Promise((resolve) => {
       axios
-        .get('http://fontana.local/wp-json/wp/v2/collection')
+        .get('https://fontana.librarians.design/wp-json/wp/v2/collection')
         .then(({ data }) => {
           commit('addCollectionToState', data);
           resolve();
@@ -19,7 +19,7 @@ const actions = {
 
   getFeaturedCollections({ commit }) {
     return new Promise((resolve) => {
-      axios.get('http://fontana.local/wp-json/wp/v2/featured-collection')
+      axios.get('https://fontana.librarians.design/wp-json/wp/v2/featured-collection')
         .then(({ data }) => {
           commit('addFeaturedCollectionToState', data);
           resolve();
@@ -30,7 +30,7 @@ const actions = {
   getLocations({ commit }) {
     return new Promise((resolve) => {
       axios
-        .get('http://fontana.local/wp-json/wp/v2/locations')
+        .get('https://fontana.librarians.design/wp-json/wp/v2/locations')
         .then(({ data }) => {
           commit('addLocationsToState', data);
           resolve();
@@ -41,7 +41,7 @@ const actions = {
   getPages({ commit }) {
     return new Promise((resolve) => {
       axios
-        .get('http://fontana.local/wp-json/wp/v2/pages')
+        .get('https://fontana.librarians.design/wp-json/wp/v2/pages')
         .then(({ data }) => {
           commit('addPagesToState', data);
           resolve();
@@ -65,7 +65,7 @@ const actions = {
   getResources({ commit }) {
     return new Promise((resolve) => {
       axios
-        .get('http://fontana.local/wp-json/wp/v2/resources')
+        .get('https://fontana.librarians.design/wp-json/wp/v2/resources')
         .then(({ data }) => {
           commit('addResourcesToState', data);
           resolve();
@@ -76,7 +76,7 @@ const actions = {
   getServices({ commit }) {
     return new Promise((resolve) => {
       axios
-        .get('http://fontana.local/wp-json/wp/v2/services')
+        .get('https://fontana.librarians.design/wp-json/wp/v2/services')
         .then(({ data }) => {
           commit('addServicesToState', data);
           resolve();
@@ -85,7 +85,7 @@ const actions = {
   },
 
   async getUpcomingEvents({ commit }) {
-    const { data } = await axios.get('http://fontana.local/wp-json/tribe/events/v1/events');
+    const { data } = await axios.get('https://fontana.librarians.design/wp-json/tribe/events/v1/events');
     commit('addEventsToState', data.events);
   },
 };
