@@ -58,6 +58,10 @@ module.exports = {
       ssr: true,
     },
     {
+      src: '~/plugins/hotjar.js',
+      ssr: false,
+    },
+    {
       src: '~/plugins/moment.js',
       ssr: true,
     },
