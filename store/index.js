@@ -5,6 +5,7 @@ import actions from './actions';
 const createStore = () => {
   return new Vuex.Store({
     state: {
+      authors: [],
       callsToAction: [],
       collection: [],
       events: [],
@@ -20,6 +21,8 @@ const createStore = () => {
     actions,
 
     getters: {
+      getAuthorById: state => authorId => state.authors.find(author => author.id === 2),
+
       getCallsToActionByCategory: state => (categoryName) => {
         const actionsByService = state.callsToAction.filter(
           call => // eslint-disable-line no-confusing-arrow
@@ -114,6 +117,10 @@ const createStore = () => {
     },
 
     mutations: {
+      addAuthorsToState: (state, authors) => {
+        state.authors = authors;
+      },
+
       addCallsToActionToState: (state, callsToAction) => { // eslint-disable-line
         state.callsToAction = callsToAction;
       },

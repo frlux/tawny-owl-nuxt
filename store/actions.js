@@ -1,6 +1,11 @@
 import axios from "axios/index";
 
 const actions = {
+  async getAuthors({ commit }) {
+    const { data } = await axios.get('https://fontana.librarians.design/wp-json/wp/v2/users');
+    commit('addAuthorsToState', data);
+  },
+
   async getCallsToAction({ commit }) {
     const { data } = await axios.get('https://fontana.librarians.design/wp-json/wp/v2/calls-to-action');
     commit('addCallsToActionToState', data);

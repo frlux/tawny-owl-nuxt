@@ -44,18 +44,21 @@ module.exports = {
         config.resolve.alias['vue'] = 'vue/dist/vue.common';
       }
     },
-    vendor: [
-      'axios',
-      'vue-add-to-calendar',
-      'vue-moment',
-    ],
   },
   router: {
     base: '/',
   },
   plugins: [
     {
+      src: '~plugins/addToCalendar.js',
+      ssr: false,
+    },
+    {
       src: '~/plugins/feathers.js',
+      ssr: true,
+    },
+    {
+      src: '~/plugins/moment.js',
       ssr: true,
     },
     {
