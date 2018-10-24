@@ -1,34 +1,21 @@
 <template>
 
-    <Channel :slug="$route.params.slug" :channel-title="$route.params.slug" />
+    <Service :service-object="serviceObject" />
 
 </template>
 
 <script>
   export default {
-    async fetch({ store }) {
-      if(store.state.callsToAction.length === 0 ) {
-        await store.dispatch('getCallsToAction');
-      }
+    computed: {
+      serviceObject() {
+        return this.$store.getters['getServiceBySlug'](this.$route.params.slug);
+      },
+    },
 
+    async fetch ({ store }) {
       if (store.state.events.length === 0) {
-        await store.dispatch('getUpcomingEvents');
+        await store.dispatch('getServices');
       }
-
-      if (store.state.services.length === 0) {
-        await store.dispatch("getServices");
-      }
-
-      if (store.state.pages.length === 0) {
-        await store.dispatch("getPages");
-      }
-      if (store.state.collection.length === 0) {
-        await store.dispatch("getCollection");
-      }
-
-      if (store.state.posts.length === 0) {
-        await store.dispatch("getPosts");
-      }
-    }
+    },
   };
 </script>
