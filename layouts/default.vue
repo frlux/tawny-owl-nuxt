@@ -5,8 +5,8 @@
     <div class="alert pb-2 pt-2 pl-4 pr-4" style="background-color: #47a0ff; color: white;">
       <div class="align-items-center col-md-12 m-auto d-flex justify-content-between">
         <h4 class="text--bold mt-1">
-          Version 0.10.0
-          <small class="text--small ml-3">October 24th 10:36 a.m.</small>
+          Version 0.12.0
+          <small class="text--small ml-3">November 5, 4:34 a.m.</small>
         </h4>
         <div>
           <a class="button button--link text--white" href="https://github.com/fontana-regional-library/feathers-design-system/blob/master/CHANGELOG.md">
@@ -35,17 +35,16 @@
 
     <nuxt />
 
-    <footer class="col-md-10 m-auto library__footer p-3 text--white">
-      I am a footer
-    </footer>
-
+    <app-footer :menu-items="[]" />
   </div>
 
 </template>
 
 <script>
-  import MainMenu from "../components/MainMenu";
-  export default {
-    components: {MainMenu}
-  }
+import MainMenu from "../components/MainMenu";
+export default {
+  components: {
+    MainMenu
+  },
+};
 </script>
