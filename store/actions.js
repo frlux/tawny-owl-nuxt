@@ -90,8 +90,8 @@ const actions = {
   },
 
   async getUpcomingEvents({ commit }) {
-    const { data } = await axios.get('https://fontana.librarians.design/wp-json/tribe/events/v1/events');
-    commit('addEventsToState', data.events);
+    const { data } = await axios.get('https://fontana.librarians.design/wp-json/wp/v2/events');
+    commit('addEventsToState', data);
   },
 };
 

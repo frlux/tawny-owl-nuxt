@@ -83,7 +83,7 @@ const createStore = () => {
 
         if (locationName && locationName !== 'all') {
           eventsFilteredByLocation = events.filter(
-            event => event.venue.slug === locationName,
+            event => event.acf.location.some( location => location.slug === locationName)
           );
         }
 
