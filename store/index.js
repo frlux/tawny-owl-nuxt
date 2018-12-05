@@ -8,6 +8,7 @@ const createStore = () => {
       authors: [],
       callsToAction: [],
       collection: [],
+      eventCount: 0,
       events: [],
       featuredCollections: [],
       locations: [],
@@ -90,6 +91,10 @@ const createStore = () => {
         return locationName && locationName !== 'all' ? eventsFilteredByLocation : events;
       },
 
+      getEventsCount: state => () => {
+        return Number(state.eventCount);
+      },
+
       getEventBySlug: state => (slug) => {
         return state.events.find(event => event.slug === slug);
       },
@@ -102,6 +107,19 @@ const createStore = () => {
         const content = state[contentType];
         return content[Math.floor(Math.random() * content.length)];
       },
+
+      getMoreContent({commit}, serviceQuery) {
+        return new Promise(resolve => {
+          axios
+            .get(urls[serviceQuery.contentType] + serviceQuery.urlParams)
+            .then(({data}) => {
+              let payload = {'content': data, 'contentType': serviceQuery.contentType};
+              commit("addMoreContent", payload);
+              resolve();
+            });
+        });
+      }
+    },
 
       getSiteContent: state => () => { // eslint-disable-line
         return [
@@ -147,6 +165,16 @@ const createStore = () => {
 
       addEventsToState(state, events) {
         state.events = events; // eslint-disable-line
+      },
+
+
+      addMoreEvents(state, moreEvents){
+        for (let i=0; i < moreEvents.length; i++) {
+          const index = state.events.findIndex(event => event.id === moreEvents[i].id);
+          if (index === -1) {
+            state.events.push(moreEvents[i]);
+          }
+        }
       },
 
       addResourcesToState(state, resources) {
