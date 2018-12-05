@@ -118,8 +118,7 @@ const createStore = () => {
               resolve();
             });
         });
-      }
-    },
+      },
 
       getSiteContent: state => () => { // eslint-disable-line
         return [
