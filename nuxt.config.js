@@ -44,6 +44,9 @@ module.exports = {
         config.resolve.alias['vue'] = 'vue/dist/vue.common';
       }
     },
+    optimization: {
+      minimize: false,
+    },
   },
   router: {
     base: '/tawny-owl-nuxt/dist',

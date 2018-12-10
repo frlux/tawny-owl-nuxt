@@ -15,8 +15,7 @@ export default {
   },
 
   async asyncData ({ params }) {
-    const { data } = await axios.get(`https://fontana.librarians.design/wp-json/wp/v2/events/?slug=${slug}`);
-    console.log(data);
+    const { data } = await axios.get(`https://fontana.librarians.design/wp-json/wp/v2/events/?slug=${params.slug}`);
   },
 
   async fetch ({ route, store }) {
