@@ -49,7 +49,7 @@ module.exports = {
     },
   },
   router: {
-    base: '/tawny-owl-nuxt/dist',
+    base: '/tawny-owl-nuxt',
   },
   plugins: [
     {
