@@ -8,6 +8,7 @@ const actions = {
 
   async getCallsToAction({ commit }) {
     const { data } = await axios.get('https://fontana.librarians.design/wp-json/wp/v2/calls-to-action');
+    console.log(data);
     commit('addCallsToActionToState', data);
   },
 
@@ -20,6 +21,15 @@ const actions = {
           resolve();
         });
     });
+  },
+
+  async getEventBySlug({ commit }, { slug }) {
+    try {
+      const { data } = await axios.get(`https://fontana.librarians.design/wp-json/wp/v2/events/?slug=${slug}`);
+      return commit('addEventToState', data);
+    } catch (error) {
+      return false;
+    }
   },
 
   getFeaturedCollections({ commit }) {

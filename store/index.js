@@ -1,6 +1,7 @@
 import Vuex from 'vuex';
 import axios from 'axios';
 import actions from './actions';
+import mutations from './mutations';
 
 const createStore = () => {
   return new Vuex.Store({
@@ -65,6 +66,10 @@ const createStore = () => {
           );
         }
         return locationName && locationName !== 'all' ? contentFilteredByLocation : contentByService;
+      },
+
+      getEventCount: state => () => {
+        return Number(state.eventCount);
       },
 
       getEvents: state => (dateString = null, locationName = null) => {
@@ -133,57 +138,7 @@ const createStore = () => {
       getServiceBySlug: state => slug => state.services.find(service => service.slug === slug),
     },
 
-    mutations: {
-      addAuthorsToState: (state, authors) => {
-        state.authors = authors;
-      },
-
-      addCallsToActionToState: (state, callsToAction) => { // eslint-disable-line
-        state.callsToAction = callsToAction;
-      },
-
-      addCollectionToState(state, collection) {
-        state.collection = collection; // eslint-disable-line
-      },
-
-      addFeaturedCollectionToState(state, featuredCollections) {
-        state.featuredCollections = featuredCollections; // eslint-disable-line
-      },
-
-      addLocationsToState(state, locations) {
-        state.locations = locations; // eslint-disable-line
-      },
-
-      addPagesToState(state, pages) {
-        state.pages = pages; // eslint-disable-line
-      },
-
-      addPostsToState(state, posts) {
-        state.posts = posts; // eslint-disable-line
-      },
-
-      addEventsToState(state, events) {
-        state.events = events; // eslint-disable-line
-      },
-
-
-      addMoreEvents(state, moreEvents){
-        for (let i=0; i < moreEvents.length; i++) {
-          const index = state.events.findIndex(event => event.id === moreEvents[i].id);
-          if (index === -1) {
-            state.events.push(moreEvents[i]);
-          }
-        }
-      },
-
-      addResourcesToState(state, resources) {
-        state.resources = resources; // eslint-disable-line
-      },
-
-      addServicesToState(state, services) {
-        state.services = services; // eslint-disable-line
-      },
-    },
+    mutations,
   })
 };
 
