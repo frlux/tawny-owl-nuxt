@@ -1,6 +1,6 @@
 <template>
 
-    <div>Hey we are here</div>
+    <Event :event-object="eventObject"/>
 
 </template>
 
@@ -14,12 +14,15 @@ export default {
     },
   },
 
-  async asyncData ({ params }) {
-    const { data } = await axios.get(`https://fontana.librarians.design/wp-json/wp/v2/events/?slug=${params.slug}`);
-  },
-
   async fetch ({ route, store }) {
-    console.log('here');
+    const event = store.getters['getEventBySlug'](route.params.slug);
+
+    if (event === null) {
+      await store.dispatch('getEventBySlug', {
+        slug: route.params.slug,
+      });
+    }
+
     if (store.state.authors.length === 0) {
       await store.dispatch('getAuthors');
     }
