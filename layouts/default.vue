@@ -5,8 +5,8 @@
     <div class="alert pb-2 pt-2 pl-4 pr-4" style="background-color: #47a0ff; color: white;">
       <div class="align-items-center col-md-12 m-auto d-flex justify-content-between">
         <h4 class="text--bold mt-1">
-          Version 0.14.0
-          <small class="text--small ml-3">December 10, 10:03 a.m.</small>
+          Version 0.15.0
+          <small class="text--small ml-3">December 11, 12:55 p.m.</small>
         </h4>
         <div>
           <a class="button button--link text--white" href="https://github.com/fontana-regional-library/feathers-design-system/blob/master/CHANGELOG.md">

@@ -24,6 +24,10 @@
       if (store.state.services.length === 0) {
         await store.dispatch('getServices');
       }
+
+      if (store.state.events.length === 0) {
+        await store.dispatch('getEvents');
+      }
     },
   };
 </script>
