@@ -16,8 +16,10 @@ const createStore = () => {
       menu: [],
       pages: [],
       posts: [],
+      articles: [],
       resources: [],
       services: [],
+      menuItems: [],      
     },
 
     actions,

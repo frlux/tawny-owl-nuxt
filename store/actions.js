@@ -12,16 +12,17 @@ const urls = {
   resources: 'https://fontana.librarians.design/wp-json/wp/v2/resources',
   services: 'https://fontana.librarians.design/wp-json/wp/v2/services?per_page=50',
   events: 'https://fontana.librarians.design/wp-json/wp/v2/events',
+  menuItems: 'https://fontana.librarians.design/wp-json/menus/v1/menus/top',
 };
 
 const actions = {
   async getAuthors({ commit }) {
-    const { data } = await axios.get('https://fontana.librarians.design/wp-json/wp/v2/users');
+    const { data } = await axios.get(urls.authors);
     commit('addAuthorsToState', data);
   },
 
   async getCallsToAction({ commit }) {
-    const { data } = await axios.get('https://fontana.librarians.design/wp-json/wp/v2/calls-to-action');
+    const { data } = await axios.get(urls.callsToAction);
     console.log(data);
     commit('addCallsToActionToState', data);
   },
@@ -29,7 +30,7 @@ const actions = {
   getCollection({ commit }) {
     return new Promise((resolve) => {
       axios
-        .get('https://fontana.librarians.design/wp-json/wp/v2/collection')
+        .get(urls.collection)
         .then(({ data }) => {
           commit('addCollectionToState', data);
           resolve();
@@ -48,7 +49,7 @@ const actions = {
 
   getFeaturedCollections({ commit }) {
     return new Promise((resolve) => {
-      axios.get('https://fontana.librarians.design/wp-json/wp/v2/featured-collection')
+      axios.get(urls.featuredCollections)
         .then(({ data }) => {
           commit('addFeaturedCollectionToState', data);
           resolve();
@@ -59,7 +60,7 @@ const actions = {
   getLocations({ commit }) {
     return new Promise((resolve) => {
       axios
-        .get('https://fontana.librarians.design/wp-json/wp/v2/locations')
+        .get(urls.locations)
         .then(({ data }) => {
           commit('addLocationsToState', data);
           resolve();
@@ -82,7 +83,7 @@ const actions = {
   getPages({ commit }) {
     return new Promise((resolve) => {
       axios
-        .get('https://fontana.librarians.design/wp-json/wp/v2/pages')
+        .get(urls.pages)
         .then(({ data }) => {
           commit('addPagesToState', data);
           resolve();
@@ -93,11 +94,20 @@ const actions = {
   getPosts({ commit }) {
     return new Promise((resolve) => {
       axios
-        .get(
-          'https://public-api.wordpress.com/rest/v1.1/sites/fontanalib.wordpress.com/posts/?number=10',
-        )
+        .get(urls.posts)
         .then(({ data }) => {
           commit('addPostsToState', data.posts);
+          resolve();
+        });
+    });
+  },
+    
+  getArticles({ commit }) {
+    return new Promise(resolve => {
+      axios
+        .get(urls.articles)
+        .then(({ data }) => {
+          commit("addArticlesToState", data);
           resolve();
         });
     });
@@ -106,7 +116,7 @@ const actions = {
   getResources({ commit }) {
     return new Promise((resolve) => {
       axios
-        .get('https://fontana.librarians.design/wp-json/wp/v2/resources')
+        .get(urls.resources)
         .then(({ data }) => {
           commit('addResourcesToState', data);
           resolve();
@@ -126,7 +136,7 @@ const actions = {
   getServices({ commit }) {
     return new Promise((resolve) => {
       axios
-        .get('https://fontana.librarians.design/wp-json/wp/v2/services')
+        .get(urls.services)
         .then(({ data }) => {
           commit('addServicesToState', data);
           resolve();
@@ -134,8 +144,19 @@ const actions = {
     });
   },
 
+  getMenuItems({ commit }) {
+    return new Promise((resolve) => {
+      axios
+        .get(urls.menuItems)
+        .then(({ data }) => {
+          commit('addMenuItemsToState', data);
+          resolve();
+        });
+    });
+  },
+
   async getUpcomingEvents({ commit }) {
-    const { data } = await axios.get('https://fontana.librarians.design/wp-json/wp/v2/events');
+    const { data } = await axios.get(urls.events);
     commit('addEventsToState', data);
   },
 };
