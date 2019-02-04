@@ -36,36 +36,29 @@ const createStore = () => {
         return actionsByService;
       },
 
-      getContentByService: state => (
-        contentType,
-        serviceName = 'any',
-        locationName = null,
-      ) => {
-        let contentFilteredByLocation;
-        let contentByService;
-
-        if (serviceName === 'any') {
-          contentByService = state[`${contentType}`];
-        } else {
-          contentByService = state[`${contentType}`].filter(
-            call => // eslint-disable-line no-confusing-arrow
-              call.acf.services
-                ? call.acf.services.some(service => service.slug === serviceName)
-                : [],
-          );
-        }
-
+      getContentByService: state => (contentType, serviceName = null, locationName = null) => {
+        let contents;
+        let contentsFilteredByService = [];
+  
         if (locationName && locationName !== 'all') {
-          contentFilteredByLocation = contentByService.filter(
-            content => // eslint-disable-line no-confusing-arrow
-              content.acf.location
-                ? content.acf.location.some(
-                location => location.slug === locationName,
-                )
-                : [],
+          contents = state[contentType].filter(
+            page => page.acf.location.some(location => location.slug === locationName)
+          );
+        } else {
+          contents = state[contentType];
+        }
+        
+        if (serviceName && serviceName !== 'any' && contents) {
+          contents.forEach(function(content){
+            if (content.acf.services != null && content.acf.services !== false){ 
+            contentsFilteredByService.push(content);
+            }
+          });
+          contentsFilteredByService = contentsFilteredByService.filter(
+            page => page.acf.services.some(service => service.slug === serviceName)
           );
         }
-        return locationName && locationName !== 'all' ? contentFilteredByLocation : contentByService;
+        return serviceName ? contentsFilteredByService : contents;
       },
 
       getEventCount: state => () => {
