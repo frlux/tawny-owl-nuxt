@@ -36,6 +36,30 @@ const actions = {
         });
     });
   },
+  
+  getEvents: state => (dateString = null, locationName = null) => {
+    let events;
+    let eventsFilteredByLocation;
+
+    if (dateString) {
+      events = state.events.filter(
+        event =>
+          `${event.start_date_details.year}-${
+            event.start_date_details.month
+            }-${event.start_date_details.day}` === dateString,
+      );
+    } else {
+      events = state.events;
+    }
+
+    if (locationName && locationName !== 'all') {
+      eventsFilteredByLocation = events.filter(
+        event => event.acf.location.some( location => location.slug === locationName)
+      );
+    }
+
+    return locationName && locationName !== 'all' ? eventsFilteredByLocation : events;
+  },
 
   async getEventBySlug({ commit }, { slug }) {
     try {
