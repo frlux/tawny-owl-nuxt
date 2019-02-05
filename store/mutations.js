@@ -28,10 +28,12 @@ const mutations = {
   },
 
   addMoreContent(state, payload) {
-    for (let i=0; i < payload.content.length; i++){
-      const index = state[payload.contentType].findIndex(item => item.id === payload.content[i].id)
-      if (index === -1){
-        state[payload.contentType].push(payload.content[i]);
+    if(payload !== null){
+      for (let i=0; i < payload.content.length; i++){
+        const index = state[payload.contentType].findIndex(item => item.id === payload.content[i].id)
+        if (index === -1){
+          state[payload.contentType].push(payload.content[i]);
+        }
       }
     }
   },
