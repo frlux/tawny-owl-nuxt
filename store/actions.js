@@ -1,17 +1,17 @@
 import axios from "axios/index";
 
 const urls = {
-  authors: 'https://fontana.librarians.design/wp-json/wp/v2/users',
-  callsToAction: 'https://fontana.librarians.design/wp-json/wp/v2/calls-to-action',
-  collection: 'https://fontana.librarians.design/wp-json/wp/v2/collection?_embed',
-  featuredCollections: 'https://fontana.librarians.design/wp-json/wp/v2/featured-collections',
-  locations: 'https://fontana.librarians.design/wp-json/wp/v2/locations',
-  pages: 'https://fontana.librarians.design/wp-json/wp/v2/pages',
+  authors: 'https://fontana.librarians.design/wp-json/wp/v2/users?',
+  callsToAction: 'https://fontana.librarians.design/wp-json/wp/v2/calls-to-action?',
+  collection: 'https://fontana.librarians.design/wp-json/wp/v2/collection?',
+  featuredCollections: 'https://fontana.librarians.design/wp-json/wp/v2/featured-collections?',
+  locations: 'https://fontana.librarians.design/wp-json/wp/v2/locations?',
+  pages: 'https://fontana.librarians.design/wp-json/wp/v2/pages?',
   posts: 'https://public-api.wordpress.com/rest/v1.1/sites/fontanalib.wordpress.com/posts/?number=10',
-  articles: 'https://fontana.librarians.design/wp-json/wp/v2/posts',
-  resources: 'https://fontana.librarians.design/wp-json/wp/v2/resources',
+  articles: 'https://fontana.librarians.design/wp-json/wp/v2/posts?',
+  resources: 'https://fontana.librarians.design/wp-json/wp/v2/resources?',
   services: 'https://fontana.librarians.design/wp-json/wp/v2/services?per_page=50',
-  events: 'https://fontana.librarians.design/wp-json/wp/v2/events',
+  events: 'https://fontana.librarians.design/wp-json/wp/v2/events?',
 };
 
 const actions = {
@@ -35,6 +35,30 @@ const actions = {
           resolve();
         });
     });
+  },
+  
+  getEvents: state => (dateString = null, locationName = null) => {
+    let events;
+    let eventsFilteredByLocation;
+
+    if (dateString) {
+      events = state.events.filter(
+        event =>
+          `${event.start_date_details.year}-${
+            event.start_date_details.month
+            }-${event.start_date_details.day}` === dateString,
+      );
+    } else {
+      events = state.events;
+    }
+
+    if (locationName && locationName !== 'all') {
+      eventsFilteredByLocation = events.filter(
+        event => event.acf.location.some( location => location.slug === locationName)
+      );
+    }
+
+    return locationName && locationName !== 'all' ? eventsFilteredByLocation : events;
   },
 
   async getEventBySlug({ commit }, { slug }) {
