@@ -2,7 +2,19 @@ import Vuex from 'vuex';
 import axios from 'axios';
 import actions from './actions';
 import mutations from './mutations';
-
+const urls = {
+  authors: 'https://fontana.librarians.design/wp-json/wp/v2/users?',
+  callsToAction: 'https://fontana.librarians.design/wp-json/wp/v2/calls-to-action?',
+  collection: 'https://fontana.librarians.design/wp-json/wp/v2/collection?',
+  featuredCollections: 'https://fontana.librarians.design/wp-json/wp/v2/featured-collections?',
+  locations: 'https://fontana.librarians.design/wp-json/wp/v2/locations?',
+  pages: 'https://fontana.librarians.design/wp-json/wp/v2/pages?',
+  posts: 'https://public-api.wordpress.com/rest/v1.1/sites/fontanalib.wordpress.com/posts/?number=10',
+  articles: 'https://fontana.librarians.design/wp-json/wp/v2/posts?',
+  resources: 'https://fontana.librarians.design/wp-json/wp/v2/resources?',
+  services: 'https://fontana.librarians.design/wp-json/wp/v2/services?per_page=50',
+  events: 'https://fontana.librarians.design/wp-json/wp/v2/events?',
+};
 const createStore = () => {
   return new Vuex.Store({
     state: {
@@ -38,36 +50,29 @@ const createStore = () => {
         return actionsByService;
       },
 
-      getContentByService: state => (
-        contentType,
-        serviceName = 'any',
-        locationName = null,
-      ) => {
-        let contentFilteredByLocation;
-        let contentByService;
-
-        if (serviceName === 'any') {
-          contentByService = state[`${contentType}`];
-        } else {
-          contentByService = state[`${contentType}`].filter(
-            call => // eslint-disable-line no-confusing-arrow
-              call.acf.services
-                ? call.acf.services.some(service => service.slug === serviceName)
-                : [],
-          );
-        }
-
+      getContentByService: state => (contentType, serviceName = null, locationName = null) => {
+        let contents;
+        let contentsFilteredByService = [];
+  
         if (locationName && locationName !== 'all') {
-          contentFilteredByLocation = contentByService.filter(
-            content => // eslint-disable-line no-confusing-arrow
-              content.acf.location
-                ? content.acf.location.some(
-                location => location.slug === locationName,
-                )
-                : [],
+          contents = state[contentType].filter(
+            page => page.acf.location.some(location => location.slug === locationName)
+          );
+        } else {
+          contents = state[contentType];
+        }
+        
+        if (serviceName && serviceName !== 'any' && contents) {
+          contents.forEach(function(content){
+            if (content.acf.services != null && content.acf.services !== false){ 
+            contentsFilteredByService.push(content);
+            }
+          });
+          contentsFilteredByService = contentsFilteredByService.filter(
+            page => page.acf.services.some(service => service.slug === serviceName)
           );
         }
-        return locationName && locationName !== 'all' ? contentFilteredByLocation : contentByService;
+        return serviceName ? contentsFilteredByService : contents;
       },
 
       getEventCount: state => () => {

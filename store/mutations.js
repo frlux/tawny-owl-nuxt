@@ -19,6 +19,17 @@ const mutations = {
     state.locations = locations; // eslint-disable-line
   },
 
+  addMoreContent(state, payload) {
+    if(payload !== null){
+      for (let i=0; i < payload.content.length; i++){
+        const index = state[payload.contentType].findIndex(item => item.id === payload.content[i].id)
+        if (index === -1){
+          state[payload.contentType].push(payload.content[i]);
+        }
+      }
+    }
+  },
+
   addPagesToState(state, pages) {
     state.pages = pages; // eslint-disable-line
   },
