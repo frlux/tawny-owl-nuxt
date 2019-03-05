@@ -1,187 +1,68 @@
-import axios from "axios/index";
-
-const urls = {
-  authors: 'https://fontana.librarians.design/wp-json/wp/v2/users?',
-  callsToAction: 'https://fontana.librarians.design/wp-json/wp/v2/calls-to-action?',
-  collection: 'https://fontana.librarians.design/wp-json/wp/v2/collection?',
-  featuredCollections: 'https://fontana.librarians.design/wp-json/wp/v2/featured-collections?',
-  locations: 'https://fontana.librarians.design/wp-json/wp/v2/locations?',
-  pages: 'https://fontana.librarians.design/wp-json/wp/v2/pages?',
-  posts: 'https://public-api.wordpress.com/rest/v1.1/sites/fontanalib.wordpress.com/posts/?number=10',
-  articles: 'https://fontana.librarians.design/wp-json/wp/v2/posts?',
-  resources: 'https://fontana.librarians.design/wp-json/wp/v2/resources?',
-  services: 'https://fontana.librarians.design/wp-json/wp/v2/services?per_page=50',
-  menuItems: 'https://fontana.librarians.design/wp-json/menus/v1/menus/top',
-  events: 'https://fontana.librarians.design/wp-json/wp/v2/events?',
-};
+import * as api from "./api.js";
 
 const actions = {
+  async getAudiences({ commit }) {
+    const { data } = await api.fetchData('audience');
+    commit('addTermsToState', {taxonomy: 'audience', terms: data.data});
+},
   async getAuthors({ commit }) {
-    const { data } = await axios.get(urls.authors);
-    commit('addAuthorsToState', data);
+    const { data } = await api.fetchData('authors');
+    commit('addAuthorsToState', data.data);
   },
 
   async getCallsToAction({ commit }) {
-    const { data } = await axios.get(urls.callsToAction);
-    console.log(data);
-    commit('addCallsToActionToState', data);
+    const { data } = await api.fetchData('callsToAction');
+    commit('addCallsToActionToState', data.data);
   },
 
-  getCollection({ commit }) {
-    return new Promise((resolve) => {
-      axios
-        .get(urls.collection)
-        .then(({ data }) => {
-          commit('addCollectionToState', data);
-          resolve();
-        });
-    });
-  },
-  
-  getEvents: state => (dateString = null, locationName = null) => {
-    let events;
-    let eventsFilteredByLocation;
-
-    if (dateString) {
-      events = state.events.filter(
-        event =>
-          `${event.start_date_details.year}-${
-            event.start_date_details.month
-            }-${event.start_date_details.day}` === dateString,
-      );
-    } else {
-      events = state.events;
-    }
-
-    if (locationName && locationName !== 'all') {
-      eventsFilteredByLocation = events.filter(
-        event => event.acf.location.some( location => location.slug === locationName)
-      );
-    }
-
-    return locationName && locationName !== 'all' ? eventsFilteredByLocation : events;
+  async getCollection({ commit }) {
+    const { data } = await api.fetchData('collection');
+    commit('addCollectionToState', data.data);
   },
 
-  async getEventBySlug({ commit }, { slug }) {
-    try {
-      const { data } = await axios.get(`https://fontana.librarians.design/wp-json/wp/v2/events/?slug=${slug}`);
-      return commit('addEventToState', data);
-    } catch (error) {
-      return false;
-    }
+  async getFeaturedCollections({ commit }) {
+    const { data } = await api.fetchData('featuredCollections');
+    commit('addFeaturedCollectionToState', data.data);
   },
 
-  getFeaturedCollections({ commit }) {
-    return new Promise((resolve) => {
-      axios.get(urls.featuredCollections)
-        .then(({ data }) => {
-          commit('addFeaturedCollectionToState', data);
-          resolve();
-        });
-    });
+  async getLocations({ commit }) {
+    const { data } = await api.fetchData('locations');
+    commit('addLocationsToState', data.data);
   },
 
-  getLocations({ commit }) {
-    return new Promise((resolve) => {
-      axios
-        .get(urls.locations)
-        .then(({ data }) => {
-          commit('addLocationsToState', data);
-          resolve();
-        });
-    });
+  async getPages({ commit }) {
+    const { data } = await api.fetchData('pages');
+    commit('addPagesToState', data.data);
   },
 
-  getMoreContent({commit}, serviceQuery) {
-    return new Promise(resolve => {
-      axios
-        .get(urls[serviceQuery.contentType] + serviceQuery.urlParams)
-        .then(({data}) => {
-          const payload = {'content': data, 'contentType': serviceQuery.contentType};
-          commit("addMoreContent", payload);
-          resolve();
-        });
-    });
-  },
-
-  getPages({ commit }) {
-    return new Promise((resolve) => {
-      axios
-        .get(urls.pages)
-        .then(({ data }) => {
-          commit('addPagesToState', data);
-          resolve();
-        });
-    });
-  },
-
-  getPosts({ commit }) {
-    return new Promise((resolve) => {
-      axios
-        .get(urls.posts)
-        .then(({ data }) => {
-          commit('addPostsToState', data.posts);
-          resolve();
-        });
-    });
+  async getPosts({ commit }) {
+    const { data } = await api.fetchData('posts');
+    commit('addPostsToState', data.posts);
   },
     
-  getArticles({ commit }) {
-    return new Promise(resolve => {
-      axios
-        .get(urls.articles)
-        .then(({ data }) => {
-          commit("addArticlesToState", data);
-          resolve();
-        });
-    });
+  async getArticles({ commit }) {
+    const { data } = await api.fetchData('articles');
+    commit('addArticlesToState', data.data);
   },
 
-  getResources({ commit }) {
-    return new Promise((resolve) => {
-      axios
-        .get(urls.resources)
-        .then(({ data }) => {
-          commit('addResourcesToState', data);
-          resolve();
-        });
-    });
+  async getResources({ commit }) {
+    const { data } = await api.fetchData('resources');
+    commit('addResourcesToState', data.data);
   },
 
-  async getServiceBySlug({ commit }, { slug }) {
-    try {
-      const { data } = await axios.get(`https://fontana.librarians.design/wp-json/wp/v2/services/?slug=${slug}`);
-      return commit('addServiceToState', data);
-    } catch (error) {
-      return false;
-    }
+  async getServices({ commit }) {
+    const { data } = await api.fetchData('services');
+    commit('addServicesToState', data.data);
   },
 
-  getServices({ commit }) {
-    return new Promise((resolve) => {
-      axios
-        .get(urls.services)
-        .then(({ data }) => {
-          commit('addServicesToState', data);
-          resolve();
-        });
-    });
-  },
-
-  getMenuItems({ commit }) {
-    return new Promise((resolve) => {
-      axios
-        .get(urls.menuItems)
-        .then(({ data }) => {
-          commit('addMenuItemsToState', data);
-          resolve();
-        });
-    });
+  async getMenuItems({ commit }) {
+    const { data } = await api.fetchData('menuItems');
+    commit('addMenuItemsToState', data.data);
   },
 
   async getUpcomingEvents({ commit }) {
-    const { data } = await axios.get(urls.events);
-    commit('addEventsToState', data);
+    const { data } = await api.fetchData('events');
+    commit('addEventsToState', data.data);
   },
 };
 
