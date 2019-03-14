@@ -1,25 +1,24 @@
 <template>
 
-    <Service :service-object="serviceObject" />
+    <Page :page-object="pageObject" />
 
 </template>
 
 <script>
   export default {
     computed: {
-      serviceObject() {
-        return this.$store.getters['getServiceBySlug'](this.$route.params.slug);
+      pageObject() {
+        return this.$store.getters['getContentBySlug'](this.$route.params.slug);
       },
-
     },
 
     async fetch ({ route, store }) {
-      const service = store.getters['getServiceBySlug'](route.params.slug);
+      const article = store.getters['getContentBySlug'](route.params.slug, 'articles');
 
-      if (service === null) {
+      if (article === null) {
         await store.dispatch('getContentBySlug', {
-          type: 'services',
-          params:{slug: route.params.slug},
+          type: 'articles',
+          params: {slug: route.params.slug} 
         });
       }
 

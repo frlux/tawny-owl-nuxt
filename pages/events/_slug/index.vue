@@ -15,11 +15,12 @@ export default {
   },
 
   async fetch ({ route, store }) {
-    const event = store.getters['getEventBySlug'](route.params.slug);
+    const event = store.getters['getContentBySlug'](route.params.slug);
 
     if (event === null) {
       await store.dispatch('getEventBySlug', {
-        slug: route.params.slug,
+        type: 'events',
+        params: {slug: route.params.slug},
       });
     }
 

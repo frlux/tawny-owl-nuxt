@@ -21,7 +21,6 @@ const createStore = () => {
       authors: [],
       callsToAction: [],
       collection: [],
-      eventCount: 0,
       events: [],
       featuredCollections: [],
       locations: [],
@@ -31,86 +30,105 @@ const createStore = () => {
       articles: [],
       resources: [],
       services: [],
-      menuItems: [],      
+      userLocation: null,
+      audience: [],
+      genres: [],
+      counts: {
+        events: 0,
+        pages: 0,
+        posts: 0,
+        articles: 0,
+        resources: 0,
+      },
     },
 
     actions,
 
     getters: {
-      getAuthorById: state => authorId => state.authors.find(author => author.id === 2),
-
-      getCallsToActionByCategory: state => (categoryName) => {
+      getAuthorById: state => authorId => state.authors.find(author => author.id === authorId),
+  
+      getCallsToActionByCategory: state => categoryName => {
         const actionsByService = state.callsToAction.filter(
-          call => // eslint-disable-line no-confusing-arrow
-            call.acf.services
-              ? call.acf.services.some(service => service.slug === categoryName)
-              : [],
+          call =>
+            call.acf.services && call.acf.services.some(service => service.slug === categoryName)
         );
-
+  
         return actionsByService;
       },
-
-      getContentByService: state => (contentType, serviceName = null, locationName = null) => {
+      getContentByService: state => (contentType = null, serviceName = null, locationName = null) => {
+       /*  const c = contentType ? state[contentType] : [
+          ...state.callsToAction,
+          ...state.resources,
+          ...state.events,
+          ...state.pages,
+          ...state.posts,
+          ...state.articles,
+          ...state.collection,
+        ]; */
+        const c = state[contentType];
         let contents;
         let contentsFilteredByService = [];
   
+    
         if (locationName && locationName !== 'all') {
-          contents = state[contentType].filter(
-            page => page.acf.location.some(location => location.slug === locationName)
+          contents = c.filter(
+            page => page.acf && page.acf.location && page.acf.location.some(location => location.slug === locationName)
           );
+  
+          if(!contents || contents.length < 1){
+            contents = c.filter(
+              page => !page.acf.location || page.acf.location.some(location => location.slug === 'headquarters')
+            );
+          }
         } else {
-          contents = state[contentType];
+          contents = c;
         }
         
-        if (serviceName && serviceName !== 'any' && contents) {
-          contents.forEach(function(content){
-            if (content.acf.services != null && content.acf.services !== false){ 
-            contentsFilteredByService.push(content);
-            }
-          });
-          contentsFilteredByService = contentsFilteredByService.filter(
-            page => page.acf.services.some(service => service.slug === serviceName)
-          );
+  
+        if(contentType === 'callsToAction'){
+          contents.sort(
+            (a,b) => (a.acf.priority > b.acf.priority) ? 1
+                      : ((b.acf.priority > a.acf.priority) ? -1 
+                      :  0));
         }
-        return serviceName ? contentsFilteredByService : contents;
+        
+        if (serviceName && serviceName !== 'any') {
+          contentsFilteredByService = contentsFilteredByService.filter(
+            page => page.acf && page.acf.services && page.acf.services.some(service => service.slug === serviceName)
+          );
+        } 
+        
+        return serviceName && serviceName !== 'any' ? contentsFilteredByService : contents;
       },
-
-      getEventCount: state => () => {
-        return Number(state.eventCount);
-      },
-
+  
       getEvents: state => (dateString = null, locationName = null) => {
         let events;
         let eventsFilteredByLocation;
-
+  
         if (dateString) {
           events = state.events.filter(
             event =>
               `${event.start_date_details.year}-${
                 event.start_date_details.month
-                }-${event.start_date_details.day}` === dateString,
+              }-${event.start_date_details.day}` === dateString
           );
         } else {
           events = state.events;
         }
-
+  
         if (locationName && locationName !== 'all') {
           eventsFilteredByLocation = events.filter(
-            event => event.acf.location.some( location => location.slug === locationName)
+            event => event.acf.location && event.acf.location.some(location => location.slug === locationName)
           );
         }
-
+  
         return locationName && locationName !== 'all' ? eventsFilteredByLocation : events;
       },
-
-      getEventsCount: state => () => {
-        return Number(state.eventCount);
-      },
-
-      getEventBySlug: state => (slug) => {
+  
+      getEventBySlug: state => slug => {
         return state.events.find(event => event.slug === slug);
       },
-
+  
       /**
        * We can use `getRandomContentItem(services)` -- for example -- to return
        * a random service.
@@ -119,30 +137,47 @@ const createStore = () => {
         const content = state[contentType];
         return content[Math.floor(Math.random() * content.length)];
       },
-
-      getMoreContent({commit}, serviceQuery) {
-        return new Promise(resolve => {
-          axios
-            .get(urls[serviceQuery.contentType] + serviceQuery.urlParams)
-            .then(({data}) => {
-              let payload = {'content': data, 'contentType': serviceQuery.contentType};
-              commit("addMoreContent", payload);
-              resolve();
-            });
-        });
-      },
-
-      getSiteContent: state => () => { // eslint-disable-line
+  
+      getSiteContent: state => () => {
         return [
           ...state.collection,
           ...state.events,
           ...state.pages,
           ...state.posts,
           ...state.services,
+          ...state.resources,
+          ...state.locations,
+          ...state.articles,
         ];
       },
-
+  
       getServiceBySlug: state => slug => state.services.find(service => service.slug === slug),
+      getLocationBySlug: state => slug => state.locations.find(location => location.slug === slug),
+      getContentBySlug: state => (slug, type=null, all=null) => {
+        
+        let content = !type ? [
+          ...state.articles,
+          ...state.pages,
+          ...state.posts,
+        ] : type=='blog' ? state.posts : state[type];
+        if(!content || content.length < 1){
+          return null;
+        }
+      
+        content = content.filter(item => item.slug && item.slug === slug);
+    
+        return !all ? content[0] : content;
+      },
+      getTerm: state => (tid, taxonomy=null) => {
+        let terms = taxonomy ? state[taxonomy] : [
+          ...state.genres,
+          ...state.audience,
+          ...state.featuredCollections,
+          ...state.services
+        ];
+  
+        return isNaN(tid) ? terms.find(term => term.slug == tid) : terms.find(term => term.id == tid)
+      }
     },
 
     mutations,

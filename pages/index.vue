@@ -30,6 +30,12 @@ export default {
     if (store.state.posts.length === 0) {
       await store.dispatch("getPosts");
     }
+    if (store.state.menu.length === 0) {
+      await store.dispatch("getMenus");
+    }
+    if (store.state.locations.length === 0) {
+      await store.dispatch("getLocations");
+    }
   }
 };
 </script>

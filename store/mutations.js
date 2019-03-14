@@ -1,92 +1,98 @@
 const mutations = {
-  addAuthorsToState: (state, authors) => {
-    state.authors = authors;
-  },
-
-  addCallsToActionToState: (state, callsToAction) => { // eslint-disable-line
-    state.callsToAction = callsToAction;
-  },
-
-  addCollectionToState(state, collection) {
-    state.collection = collection; // eslint-disable-line
-  },
-
-  addFeaturedCollectionToState(state, featuredCollections) {
-    state.featuredCollections = featuredCollections; // eslint-disable-line
-  },
-
-  addLocationsToState(state, locations) {
-    state.locations = locations; // eslint-disable-line
-  },
-
-  addMoreContent(state, payload) {
-    if(payload !== null){
-      for (let i=0; i < payload.content.length; i++){
-        const index = state[payload.contentType].findIndex(item => item.id === payload.content[i].id)
-        if (index === -1){
-          state[payload.contentType].push(payload.content[i]);
-        }
-      }
-    }
-  },
-
-  addPagesToState(state, pages) {
-    state.pages = pages; // eslint-disable-line
-  },
-
-  addPostsToState(state, posts) {
-    state.posts = posts; // eslint-disable-line
-  },
-
   addArticlesToState(state, articles) {
     state.articles = articles;
   },
 
-  addEventToState(state, event) {
-    state.events.push(event);
+  addAuthorsToState(state, authors) {
+    state.authors = authors;
+  },
+
+  addCallsToActionToState(state, callsToAction) {
+    state.callsToAction = callsToAction;
+  },
+
+  addCollectionToState(state, collection) {
+    state.collection = collection;
   },
 
   addEventsToState(state, events) {
     state.events = events;
   },
 
-  addEventCount(state, eventCount) {
-    state.eventCount = eventCount;
+  addCount(state, count) {
+    state.counts[count.type]=count.count;
+  },
+
+  addFeaturedCollectionToState(state, featuredCollections) {
+    state.featuredCollections = featuredCollections;
+  },
+
+  addLocationsToState(state, locations) {
+    state.locations = locations;
+  },
+  
+  addMenusToState(state, menuItems) {
+    menuItems.forEach(item=>{
+      Vue.set(state.menuItems, item.slug, '')
+    })
+  },
+  addMenuItemsToState(state, payload) {
+      state.menu.push(payload);
+  },
+
+
+  addMoreContent(state, payload) {
+    if(!state[payload.contentType] || state[payload.contentType].length == 0){
+      state[payload.contentType] = payload.content;
+    }
+    for (let i=0; i < payload.content.length; i++){
+      const index = state[payload.contentType].findIndex(item => item.id === payload.content[i].id)
+      if (index === -1){ 
+        state[payload.contentType].push(payload.content[i]);
+      }
+    }
   },
 
   addMoreEvents(state, moreEvents){
-    for (let i=0; i < moreEvents.length; i++) {
-      const index = state.events.findIndex(event => event.id === moreEvents[i].id);
-      if (index === -1) {
+    for (let i=0; i < moreEvents.length; i++){
+      const index = state.events.findIndex(event => event.id === moreEvents[i].id)
+      if (index === -1){ 
         state.events.push(moreEvents[i]);
       }
     }
   },
 
-  addResourcesToState(state, resources) {
-    state.resources = resources; // eslint-disable-line
+  addPagesToState(state, pages) {
+    state.pages = pages;
   },
 
-  addServiceToState(state, service) {
-    state.services.push(service);
+  addPostsToState(state, posts) {
+    state.posts = posts;
+  },
+
+  addResourcesToState(state, resources) {
+    state.resources = resources;
   },
 
   addServicesToState(state, services) {
-    state.services = services; // eslint-disable-line
+    state.services = services;
   },
 
-  addMenuItemsToState(state, menuItems) {
-    state.menuItems = menuItems;
+  setUserLocation(state, location){
+    state.userLocation = location!=='all' ? location : null;
   },
-
-  addMoreContent(state, payload) {
-    for (let i=0; i < payload.content.length; i++){
-      const index = state[payload.contentType].findIndex(item => item.id === payload.content[i].id)
-      if (index === -1){
-        state[payload.contentType].push(payload.content[i]);
+  addTermsToState(state, payload){
+    if(state[payload.taxonomy].length < 1){
+      state[payload.taxonomy] = payload.terms;
+    } else {
+      for (let i=0; i < payload.terms.length; i++){
+        const index = state[payload.taxonomy].findIndex(term => term.id === payload.terms[i].id)
+        if (index === -1){ 
+          state[payload.taxonomy].push(payload.terms[i]);
+        }
       }
     }
-  },
+  }
 };
 
 export default mutations;
