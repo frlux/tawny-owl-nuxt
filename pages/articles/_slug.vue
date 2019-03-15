@@ -27,7 +27,7 @@
       }
 
       if (store.state.events.length === 0) {
-        await store.dispatch('getEvents');
+        await store.dispatch('getUpcomingEvents');
       }
     },
   };

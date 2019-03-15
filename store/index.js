@@ -160,6 +160,8 @@ const createStore = () => {
           ...state.pages,
           ...state.posts,
         ] : type=='blog' ? state.posts : state[type];
+        console.log(content);
+
         if(!content || content.length < 1){
           return null;
         }

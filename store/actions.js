@@ -12,11 +12,21 @@ const actions = {
 },
 async getContentBySlug({ commit }, args) {
   return new Promise(resolve => {
-    const authors = api.fetchData(args.type, args.params)
-  .then( data=>{
-    resolve();
-    commit('addMoreContent', {contentType: args.type, content: data.data});
-  });
+      if(args.type != 'posts'){
+      const authors = api.fetchData(args.type, args.params)
+      .then( data=>{
+          commit('addMoreContent', {contentType: args.type, content: data.data});
+        resolve();
+        
+      });
+  } else{
+    const authors = api.fetchPerson('getBlogBySlug', args.params.slug)
+    .then( data=>{
+        commit('addMoreContent', {contentType: args.type, content: data.data});
+      resolve(); 
+    });
+
+  }
 });
 },
   async getMenus({ commit }) {

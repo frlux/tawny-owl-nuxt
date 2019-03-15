@@ -1,19 +1,20 @@
 <template>
 
-    <Locations />
+    <Channel network='resources'/>
 
 </template>
 
 <script>
 export default {
-  loading: true,
     async fetch({ store }) {
-      if(store.state.locations.length === 0 ) {
-        await store.dispatch('getLocations');
+
+      if (store.state.menu.length === 0) {
+        await store.dispatch("getMenus");
       }
       if(store.state.callsToAction.length === 0 ) {
-        await store.dispatch('getMenus');
+        await store.dispatch('getResources');
       }
+
       if(store.state.callsToAction.length === 0 ) {
         await store.dispatch('getCallsToAction');
       }

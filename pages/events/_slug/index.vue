@@ -1,6 +1,6 @@
 <template>
 
-    <Event :event-object="eventObject"/>
+    <Event :page-object="pageObject"/>
 
 </template>
 
@@ -8,8 +8,9 @@
 import axios from 'axios';
 
 export default {
+  loading: true,
   computed: {
-    eventObject() {
+    pageObject() {
       return this.$store.getters['getEventBySlug'](this.$route.params.slug);
     },
   },
@@ -31,6 +32,7 @@ export default {
     if (store.state.events.length === 0) {
       await store.dispatch('getUpcomingEvents');
     }
+    
   },
 };
 </script>

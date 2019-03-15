@@ -1,6 +1,6 @@
 <template>
 
-    <Location :page-object="pageObject" />
+    <Page :page-object="pageObject" />
 
 </template>
 
@@ -8,15 +8,18 @@
   export default {
     computed: {
       pageObject() {
-        return this.$store.getters['getLocationBySlug'](this.$route.params.slug);
+        return this.$store.getters['getContentBySlug'](this.$route.params.slug, 'resources');
       },
     },
-  loading: true,
-    async fetch ({ route, store }) {
-      const location = store.getters['getContentBySlug'](route.params.slug, 'locations');
 
-      if (!location) {
-        await store.dispatch("getLocations");
+    async fetch ({ route, store }) {
+      const resource = store.getters['getContentBySlug'](route.params.slug, 'resources');
+
+      if (!resource) {
+        await store.dispatch('getContentBySlug', {
+          type: 'resources',
+          params: {slug: route.params.slug} 
+        });
       }
       if (store.state.menu.length === 0) {
         await store.dispatch("getMenus");

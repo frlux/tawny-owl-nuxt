@@ -49,7 +49,7 @@ module.exports = {
     //},
   },
   router: {
-    base: '/tawny-owl',
+    base: '/',
   },
   plugins: [
     {

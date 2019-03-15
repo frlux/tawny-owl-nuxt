@@ -1,34 +1,43 @@
 <template>
 
-    <Page :page-object="pageObject" />
+    <Page :page-object="pageObject"/>
 
 </template>
 
 <script>
   export default {
+    
+
     computed: {
       pageObject() {
-        return this.$store.getters['getContentBySlug'](this.$route.params.slug);
+        return this.$store.getters['getContentBySlug'](this.$route.params.slug, 'posts');
       },
     },
-
+    loading: true,
     async fetch ({ route, store }) {
-      const article = store.getters['getContentBySlug'](route.params.slug, 'posts');
-
-      if (article === null) {
+      const blog = store.getters['getContentBySlug'](route.params.slug, 'posts');
+      if (!blog) {
+        console.log('fetch...');
         await store.dispatch('getContentBySlug', {
           type: 'posts',
           params: {slug: route.params.slug} 
         });
       }
-
+      const bb = store.getters['getContentBySlug'](route.params.slug, 'posts');
+      console.log(bb);
+      if (store.state.menu.length === 0) {
+        await store.dispatch("getMenus");
+      }
       if (store.state.services.length === 0) {
         await store.dispatch('getServices');
       }
 
       if (store.state.events.length === 0) {
-        await store.dispatch('getEvents');
+        await store.dispatch('getUpcomingEvents');
       }
     },
+     meta:{
+        parent: {name:"blog", text:"Shelf Life in the Mountains"}, type: {store: 'posts', wp: 'post'}
+     },
   };
 </script>

@@ -1,15 +1,16 @@
 <template>
 
-    <Channel network='blog'/>
+    <Channel network="pages"/>
 
 </template>
 
 <script>
 export default {
   loading: true,
-    async fetch({ store }) {
-      if(store.state.posts.length < 20 ) {
-        await store.dispatch('getPosts');
+    async fetch({ route, store }) {
+
+      if(store.state.pages.length === 0 ) {
+        await store.dispatch('getPages');
       }
       if (store.state.menu.length === 0) {
         await store.dispatch("getMenus");
@@ -18,9 +19,10 @@ export default {
         await store.dispatch('getCallsToAction');
       }
 
-      if (store.state.services.length === 0) {
-        await store.dispatch("getServices");
+       if (store.state.locations.length === 0) {
+      await store.dispatch("getLocations");
       }
+  
     }
 };
 </script>
