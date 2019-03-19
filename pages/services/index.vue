@@ -1,11 +1,26 @@
 <template>
 
-    <Services />
+    <Services :filter='query'/>
 
 </template>
 
 <script>
 export default {
+   created() {
+    // $on method will receive the updated count value from the sender component
+    if(this.$route.query && (this.$route.query.filter || this.$route.query.search)){
+      this.query = this.$route.query.filter ? this.$route.query.filter : this.$route.query.search; 
+    }
+    this.$nuxt.$root.$on('inputData', data => {
+      console.log(data);
+      this.query=data;
+    });
+  },
+  data(){
+    return{
+      query: ''
+    }
+  },
   loading: true,
     async fetch({ store }) {
       if (store.state.services.length < 15) {

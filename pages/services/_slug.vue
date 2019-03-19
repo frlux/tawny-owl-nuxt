@@ -42,10 +42,6 @@
         await store.dispatch('getUpcomingEvents');
       }
 
-      if (store.state.services.length === 0) {
-        await store.dispatch("getServices");
-      }
-
       if (store.state.pages.length === 0) {
         await store.dispatch("getPages");
       }

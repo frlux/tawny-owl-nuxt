@@ -19,7 +19,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "eslint-loader": "^2.1.1",
-    "feathers-design-system": "file:../feathers-design-system/feathers-design-system-0.19.0.tgz",
+    "feathers-design-system": "file:../feathers-design-system/feathers-design-system-0.19.0--params.tgz",
     "moment": "^2.22.2",
     "nuxt": "^2.3.4",
     "vue-add-to-calendar": "^1.0.4",
