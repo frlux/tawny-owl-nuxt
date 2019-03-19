@@ -6,11 +6,8 @@
 
 <script>
   export default {
-    
-    
-
+    loading: true,
     async fetch ({ route, store }) {
-      console.log(route)
       const collection = store.state.collection;
 
       if (collection === null || collection.length == 0) {
@@ -18,6 +15,9 @@
       }
       if (store.state.menu.length === 0) {
         await store.dispatch("getMenus");
+      }
+      if (store.state.locations.length === 0) {
+        await store.dispatch("getLocations");
       }
       if (store.state.genres.length === 0) {
         await store.dispatch('getGenres');

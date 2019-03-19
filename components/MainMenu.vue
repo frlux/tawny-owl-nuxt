@@ -55,14 +55,14 @@
             <template slot="label">{{ currentLocation }}</template>
             <template slot="items">
 
-                <nuxt-link :to="setLocationInQueryParameter('all')">All Libraries</nuxt-link>
-                <nuxt-link
+                <a @click="setLocation('all')">All Libraries</a>
+                <a href="javascript:void(null);"
                         class="d-block dropdown__menu__item link link--undecorated mb-1 mt-1 text--underlined"
                         :key="location.id"
-                        :to="setLocationInQueryParameter(`${location.slug}`)"
+                        @click="setLocation(`${location.slug}`)"
                         v-for="location in locations">
                     {{ location.name }}
-                </nuxt-link>
+                </a>
             </template>
         </Dropdown>
 
@@ -79,7 +79,7 @@
        * if it's present in the url.
        */
       currentLocation() {
-        const locationSlugInUrl = this.$route.query.location;
+        const locationSlugInUrl = this.$store.state.userLocation ? this.$store.state.userLocation : this.$route.query.location;
         const location = this.locations.find(location => location.slug === locationSlugInUrl);
 
         return (location ? location.name : 'All Libraries');
@@ -91,10 +91,11 @@
     },
 
     methods: {
-      setLocationInQueryParameter(locationSlug) {
-        return {
+      setLocation(locationSlug) {
+        this.$store.commit('setUserLocation', locationSlug);
+/*         return {
           query: Object.assign({}, this.$route.query, { location: `${locationSlug}` }),
-        };
+        }; */
       },
     },
 

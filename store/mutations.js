@@ -77,13 +77,17 @@ const mutations = {
     state.locations = locations;
   },
   
-  addMenusToState(state, menuItems) {
-    menuItems.forEach(item=>{
-      Vue.set(state.menuItems, item.slug, '')
-    })
-  },
-  addMenuItemsToState(state, payload) {
-      state.menu.push(payload);
+  addMenuItemsToState(state, menu) {
+      if(!state.menu || state.menu.length == 0){
+        state.menu = menu;
+        }else{
+          for (let i=0; i < menu.length; i++){
+            const index = state.menu.findIndex(item => item.slug === menu[i].slug)
+            if (index === -1){ 
+              state.menu.push(menu[i]);
+            }
+          }
+        }
   },
 
 

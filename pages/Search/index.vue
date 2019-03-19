@@ -5,6 +5,7 @@
 
 <script>
 export default {
+  loading: true,
    async fetch ({ route, store }) {
 
      console.log(route);

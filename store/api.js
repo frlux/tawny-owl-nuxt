@@ -149,3 +149,12 @@ export const fetchPerson = (type, slug) => {
     console.error(error)
   }
 }
+export const fetchMenu = (parentSlug, param=[])=> {
+  try {
+    return axios.get(content.menuItems.url + `/${parentSlug}`, {
+      params: param
+    })
+  } catch (error) {
+    console.error(error)
+  }
+}

@@ -31,11 +31,18 @@ async getContentBySlug({ commit }, args) {
 },
   async getMenus({ commit }) {
     return new Promise(resolve => {
-      const authors = api.fetchData('menuItems',[], '/top')
+      const authors = api.fetchData('menuItems')
     .then( data=>{
-      let menu ={name: 'top', items: data.data};
-      commit('addMenuItemsToState', menu);
-      resolve();
+      data.data.forEach(menu=>{
+        const items = api.fetchMenu(menu.slug)
+          .then(results=>{
+          menu.menu = results.data;
+          commit('addMenuItemsToState', [menu]);
+          })
+          resolve();
+      })
+     
+      
     });
   });
     /* return new Promise(resolve => {

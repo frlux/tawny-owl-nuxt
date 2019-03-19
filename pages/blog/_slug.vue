@@ -17,16 +17,17 @@
     async fetch ({ route, store }) {
       const blog = store.getters['getContentBySlug'](route.params.slug, 'posts');
       if (!blog) {
-        console.log('fetch...');
         await store.dispatch('getContentBySlug', {
           type: 'posts',
           params: {slug: route.params.slug} 
         });
       }
-      const bb = store.getters['getContentBySlug'](route.params.slug, 'posts');
-      console.log(bb);
+
       if (store.state.menu.length === 0) {
         await store.dispatch("getMenus");
+      }
+      if (store.state.locations.length === 0) {
+        await store.dispatch("getLocations");
       }
       if (store.state.services.length === 0) {
         await store.dispatch('getServices');

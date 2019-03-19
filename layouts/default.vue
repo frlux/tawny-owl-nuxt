@@ -35,7 +35,7 @@
 
     <nuxt />
 
-    <app-footer />
+    <app-footer :key="$store.state.userLocation" :page-object="userLocation" :menu-items="footer"/>
   </div>
 
 </template>
@@ -46,5 +46,27 @@ export default {
   components: {
     MainMenu
   },
+  computed:{
+    footer(){
+      console.log('footer');
+      let menu = this.$store.state.menu;
+      menu = menu[0];
+      console.log(menu);
+      return menu && menu.menu ? menu.menu.items : [];
+    },
+    userLocation(){
+      return this.$store.state.userLocation ? this.$store.getters.getLocationBySlug(this.$store.state.userLocation) : this.$store.getters.getLocationBySlug('headquarters')
+    }
+
+  },
+  loading:true,
+  async fetch({ store }) {
+    if (store.state.menu.length == 0) {
+        await store.dispatch("getMenus");
+      }      
+      if (store.state.locations.length === 0) {
+        await store.dispatch("getLocations");
+      }
+    }
 };
 </script>
