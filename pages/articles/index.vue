@@ -1,6 +1,6 @@
 <template>
 
-    <Page />
+    <Channel network='articles'/>
 
 </template>
 
