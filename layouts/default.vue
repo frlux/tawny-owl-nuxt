@@ -12,7 +12,7 @@
           <a class="button button--link text--white" href="https://github.com/fontana-regional-library/feathers-design-system/blob/master/CHANGELOG.md">
             Latest changes
           </a>
-          <a href="https://github.com/fontana-regional-library/feathers-design-system/issues" class="button button--pink">
+          <a href="https://github.com/frlux/tawny-owl-nuxt/issues" class="button button--pink">
             See known issues
           </a>
         </div>
