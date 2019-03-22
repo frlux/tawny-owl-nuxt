@@ -1,12 +1,12 @@
 /*!
- * Vue.js v2.5.17
- * (c) 2014-2018 Evan You
+ * Vue.js v2.6.10
+ * (c) 2014-2019 Evan You
  * Released under the MIT License.
  */
 
 /**
- * vuex v3.0.1
- * (c) 2017 Evan You
+ * vuex v3.1.0
+ * (c) 2019 Evan You
  * @license MIT
  */
 
@@ -36,27 +36,16 @@
  */
 
 /*!
- * vue-add-to-calendar v1.0.4 
- * (c) 2017 nicolasbeauvais
+ * vue-no-ssr v1.1.1
+ * (c) 2018-present egoist <0x142857@gmail.com>
  * Released under the MIT License.
  */
 
 /*!
- * Determine if an object is a Buffer
- *
- * @author   Feross Aboukhadijeh <https://feross.org>
- * @license  MIT
+ * vue-add-to-calendar v1.0.4 
+ * (c) 2017 nicolasbeauvais
+ * Released under the MIT License.
  */
-
-//! moment.js
-
-//! version : 2.19.1
-
-//! authors : Tim Wood, Iskren Chernev, Moment.js contributors
-
-//! license : MIT
-
-//! momentjs.com
 
 //! moment.js
 
@@ -75,39 +64,6 @@
  * Released under MIT license <https://lodash.com/license>
  * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
  * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- */
-
-/**
- * @license
- * Lodash <https://lodash.com/>
- * Copyright JS Foundation and other contributors <https://js.foundation/>
- * Released under MIT license <https://lodash.com/license>
- * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
- * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- */
-
-/**
- * @license
- * Lodash <https://lodash.com/>
- * Copyright JS Foundation and other contributors <https://js.foundation/>
- * Released under MIT license <https://lodash.com/license>
- * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
- * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- */
-
-/**
- * @license
- * Lodash <https://lodash.com/>
- * Copyright JS Foundation and other contributors <https://js.foundation/>
- * Released under MIT license <https://lodash.com/license>
- * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
- * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- */
-
-/*!
- * vue-add-to-calendar v1.0.4 
- * (c) 2017 nicolasbeauvais
- * Released under the MIT License.
  */
 
 /*!
@@ -117,29 +73,3 @@
  */
 
 /* flatpickr v4.5.1, @license MIT */
-
-//! moment.js
-
-//! version : 2.19.1
-
-//! authors : Tim Wood, Iskren Chernev, Moment.js contributors
-
-//! license : MIT
-
-//! momentjs.com
-
-//! moment.js
-
-//! version : 2.19.1
-
-//! authors : Tim Wood, Iskren Chernev, Moment.js contributors
-
-//! license : MIT
-
-//! momentjs.com
-
-/*!
- * vue-no-ssr v1.1.0
- * (c) 2018-present egoist <0x142857@gmail.com>
- * Released under the MIT License.
- */
